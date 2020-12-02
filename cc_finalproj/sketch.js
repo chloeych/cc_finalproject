@@ -1,7 +1,7 @@
 let layer1=[];
 let layer2=[];
 
-// declare object
+// declare objects
 let backgroundImg = [];
 let layerOneImg = [];
 let x,y; // Variables for Image Loc and Image Size 
@@ -9,11 +9,22 @@ let xScroll = [];
 let yScroll = []; // Variables for Horizontal Parallax
 let x1, x2, y1, y2; //Variables for Parallax Locations
 
+// declaring audio
+let dreamtimeAudio;
+
+// declaring buttons
+let audioBtn;
+
 function preload(){
-  for (let i=0; i<3; i++){
+  // Preload Images
+  for (let i=0; i<3; i++){ 
     layer1[i] = loadImage("art_img/layer1/img_"+i+".png"); // Preload 'backgroundImg' Object 
     layer2[i] = loadImage("art_img/layer2/img_"+i+".png"); // Preload Layer 2 Object 
   }
+
+  // Preload Audio 
+  soundFormats('mp3');
+  dreamtimeAudio = loadSound('audio/dreamtime_0.mp3');
 }
 
 function setup() {
@@ -21,6 +32,11 @@ function setup() {
   for (let i=0; i<3; i++){
     backgroundImg[i] = new StaticImg();
     layerOneImg[i] = new MovingImg();
+    
+    // Audio Button Set Up 
+    audioBtn = new Clickable();
+    audioBtn.resize(100, 50); 
+  
   }
    
 }
@@ -28,6 +44,7 @@ function setup() {
 function draw() {
 
   background(100);
+
 
   // Background Image Repeated
   let rows = 2; 
@@ -51,6 +68,14 @@ function draw() {
   for (let i=0; i<3; i++) { // Display Images 
     layerOneImg[i].display([i],xScroll[i], yScroll[i] );
   }
+
+  // Display Buttons 
+  audioBtn.draw();
+  audioBtn.onPress = function(){
+    console.log("pressed");
+    dreamtimeAudio.play();
+  }
+
 
 }
 
@@ -80,6 +105,8 @@ class MovingImg{
   }
   
 }
+
+
 
 
 
