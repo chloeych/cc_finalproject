@@ -5,8 +5,9 @@ let layer2=[];
 let backgroundImg = [];
 let layerOneImg = [];
 let x,y; // Variables for Image Loc and Image Size 
-let xScroll; // Variables for Horizontal Parallax
-let x1, x2, y1, y2;
+let xScroll = [];
+let yScroll = []; // Variables for Horizontal Parallax
+let x1, x2, y1, y2; //Variables for Parallax Locations
 
 function preload(){
   for (let i=0; i<3; i++){
@@ -25,19 +26,30 @@ function setup() {
 }
 
 function draw() {
-  background(100);
-  // xScroll = map(window.scrollX, 1000, 1400, 1600, 1800, true);
-  // console.log(window.scrollX);
 
-  backgroundImg[0].display([0], 0, 0);
+  background(100);
+
+  // Background Image Repeated
+  let rows = 2; 
+  let cols = 5; 
+
+  for (let yVal=0; yVal < rows; yVal++){
+    for (let xVal = 0; xVal < cols; xVal++){
+      backgroundImg[0].display([0], xVal*800, yVal*800);
+    }
+  }
+
+  // Display Static
 
   backgroundImg[1].display([1], 300, 0);
 
+  // Display and Setup of Parallax Images 
 
+  layerOneImg[0].parallax([0], 0, 200, 100, 200, 0, 400, 100, 800);
+  layerOneImg[1].parallax([1], 500, 800, 600, 1200, 0, 100, 200, 300);
+  layerOneImg[1].parallax([2], 300, 600, 200, 400, 1000, 1200, 800, 1000);
   for (let i=0; i<3; i++) { // Display Images 
-    // backgroundImg[i].display([i],500, 500);
-    layerOneImg[i].parallax(0, 1500, 200, 1800);
-    layerOneImg[i].display([i],xScroll, 100 );
+    layerOneImg[i].display([i],xScroll[i], yScroll[i] );
   }
 
 }
@@ -58,13 +70,13 @@ class MovingImg{
   constructor(){
     }
 
-  display(i, x, y){
-    image(layer2[i], x, y);
+  parallax(i, xStart1, xStop1, xStart2, xStop2, yStart1, yStop1, yStart2, yStop2){
+    xScroll[i] = map(window.scrollX, xStart1, xStop1, xStart2, xStop2, true);
+    yScroll[i] = map(window.scrollY, yStart1, yStop1, yStart2, yStop2, true);
   }
 
-  parallax(x1, y1, x2, y2){
-    xScroll = map(window.scrollX, x1, y1, x2, y2, true);
-    console.log(window.scrollX);
+  display(i, x, y){
+    image(layer2[i], x, y);
   }
   
 }
@@ -74,12 +86,19 @@ class MovingImg{
 
 
 // References:
-// https://www.aboriginalartstore.com.au/aboriginal-art-culture/aboriginal-symbols-glossary/aboriginal-symbols-and-their-meanings/
-// https://theconversation.com/friday-essay-the-politics-of-aboriginal-kitsch-73683
-// https://sc.artgallery.wa.gov.au/19900236a-b-maralinga
-// http://www.powertopersuade.org.au/blog/the-impact-of-political-determinants-of-health-must-be-recognised-for-aboriginal-and-torres-strait-islander-women/21/2/2018
-// https://www.art-almanac.com.au/julie-dowling-babanyu-friends-life/
-// https://cdn11.bigcommerce.com/s-x49po/images/stencil/1280x1280/products/33177/46135/AboriginalArt_DotArtworkforConcentration_MeditationandProsperity2_na_450_42-1629-1684_4100X5851_497__38650.1531550691.jpg?c=2
-// https://www.pinterest.com.au/pin/6966574413647331/
-// http://www.gabriellepizzi.com.au/exhibitions/gallery_gabrielle_pizzi_0706balgo.html
-// https://www.widewalls.ch/magazine/aboriginal-culture-art-importance
+    // Images
+        // https://www.aboriginalartstore.com.au/aboriginal-art-culture/aboriginal-symbols-glossary/aboriginal-symbols-and-their-meanings/
+        // https://theconversation.com/friday-essay-the-politics-of-aboriginal-kitsch-73683
+        // https://sc.artgallery.wa.gov.au/19900236a-b-maralinga
+        // http://www.powertopersuade.org.au/blog/the-impact-of-political-determinants-of-health-must-be-recognised-for-aboriginal-and-torres-strait-islander-women/21/2/2018
+        // https://www.art-almanac.com.au/julie-dowling-babanyu-friends-life/
+        // https://cdn11.bigcommerce.com/s-x49po/images/stencil/1280x1280/products/33177/46135/AboriginalArt_DotArtworkforConcentration_MeditationandProsperity2_na_450_42-1629-1684_4100X5851_497__38650.1531550691.jpg?c=2
+        // https://www.pinterest.com.au/pin/6966574413647331/
+        // http://www.gabriellepizzi.com.au/exhibitions/gallery_gabrielle_pizzi_0706balgo.html
+        // https://www.widewalls.ch/magazine/aboriginal-culture-art-importance
+        // https://www.aboriginalartstore.com.au/artists/malcolm-maloney-jagamarra/lander-river/
+        // https://www.aboriginalartstore.com.au/artists/paddy-fordham-wainburranga/mermaid-sisters/
+        // https://www.aboriginalartstore.com.au/artists/malcolm-maloney-jagamarra/inapaku-dreaming/
+    // Audio 
+        // https://www.youtube.com/watch?v=xDJrnldb08o
+
