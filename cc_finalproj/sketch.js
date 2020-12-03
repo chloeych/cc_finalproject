@@ -1,3 +1,10 @@
+//Acknowledgement
+
+let a = 'I would like to begin by acknowledging the American Indigenous population, Traditional Custodians of the land on which we learn today, and pay my respects to their Elders past and present. I extend this respect to the Australian Aboriginal and Torres Strait Islander peoples that created these works of art using pieces of their culture and experiences. I would also like to pay my respects to their Elders past and present and to thank them for sharing their work.'
+
+let instruction = 'Instructions: Use your trackpad or mouse to navigate around the Canvas. Interact with shapes to hear Dreamtime Stories.'
+//img set up
+
 let layer1=[];
 let layer2=[];
 
@@ -15,6 +22,13 @@ let dreamtimeAudio;
 // declaring buttons
 let audioBtn;
 let audioCount = 0;
+let xBtn; 
+let xBtnCount = 0; 
+
+// declare popup box variables 
+let outBoxOpacity = 190; 
+let boxOpacity = 255; 
+
 
 function preload(){
   // Preload Images
@@ -27,6 +41,8 @@ function preload(){
   // Preload Audio 
   soundFormats('mp3');
   dreamtimeAudio = loadSound('audio/dreamtime_0.mp3');
+
+
 }
 
 function setup() {
@@ -35,18 +51,26 @@ function setup() {
   for (let i=0; i<14; i++){
     layerOneImg[i] = new MovingImg();
     
+    // Popup Button Set Up 
+    xBtn = new Clickable();
+    xBtn.resize(10, 10);
+    xBtn.locate(960,270);
+    xBtn.textColor = 255;
+    xBtn.text = "X";  
+    xBtn.color = 0;
+    xBtn.textSize = 20;
+
+
     // Audio Button Set Up 
     audioBtn = new Clickable();
     audioBtn.resize(100, 50); 
   
   }
-   
 }
 
 function draw() {
 
   background(100);
-
 
   // Background Image Repeated
   let rows = 2; 
@@ -58,10 +82,9 @@ function draw() {
     }
   }
 
-
   // Display and Setup of Parallax Images 
 
-  layerOneImg[0].parallax([0], 200, 250, 100, 500, 0, 700, 700, 800);
+  layerOneImg[0].parallax([0], 400, 650, 500, 800, 0, 700, 700, 800);
   layerOneImg[1].parallax([1], 0, 100, 50, 200, 0, 100, 200, 300);
   layerOneImg[2].parallax([2], 2800, 2900, 3000, 3200, 0, 100, 50, 300);
   layerOneImg[3].parallax([3], 100, 1900, 200, 2200, 0, 100, 200, 300);
@@ -73,7 +96,7 @@ function draw() {
   layerOneImg[9].parallax([9], 500, 800, 600, 1200, 0, 100, 200, 300);
   layerOneImg[10].parallax([10], 100, 120, 100, 120, 0, 20, 0, 30);
   layerOneImg[11].parallax([11], 0, 50, 100, 200, 900, 1200, 1000, 1400);
-  layerOneImg[12].parallax([12], 2600, 2700, 2500, 2600, 600, 700, 600, 800);
+  layerOneImg[12].parallax([12], 2800, 2900, 3100, 3200, 400, 500, 500, 600);
   layerOneImg[13].parallax([13],2700, 2900, 3200, 3500, 0, 100, 200, 300);
 
   for (let i=0; i<14; i++) { // Display Images 
@@ -98,6 +121,31 @@ function draw() {
       audioCount = 1;
       dreamtimeAudio.play();
     }
+  }
+
+  //acknowledgement pop up 
+  fill(0,outBoxOpacity);
+  rect(0, 0, width, height); 
+  fill(0, boxOpacity);
+  rect(width/10, height/8, 600, 300); 
+  fill(255, outBoxOpacity);
+  textFont("Antic Slab");
+  text(a, width/10+50, height/9, 500, 250);
+  text(instruction, width/10+50, height/6, 500, 250);
+
+  xBtn.draw()
+  xBtn.onHover = function(){
+    xBtn.textSize = 25;
+  }
+  xBtn.onOutside = function(){
+    xBtn.textSize = 20;
+    
+  }
+  xBtn.onPress = function(){
+    outBoxOpacity = 0; 
+    boxOpacity = 0; 
+    xBtn.text = "   ";
+    xBtn.resize(0,0);
   }
 }
 
