@@ -1,5 +1,4 @@
 //Acknowledgement
-
 let a = 'I would like to begin by acknowledging the American Indigenous population, Traditional Custodians of the land on which we learn today, and pay my respects to their Elders past and present. I extend this respect to the Australian Aboriginal and Torres Strait Islander peoples that created these works of art using pieces of their culture and experiences. I would also like to pay my respects to their Elders past and present and to thank them for sharing their work.'
 
 let instruction = 'Instructions: Use your trackpad or mouse to navigate around the Canvas. Interact with shapes to hear Dreamtime Stories.'
@@ -34,6 +33,12 @@ let xBtnCount = 0;
 let outBoxOpacity = 190; 
 let boxOpacity = 255; 
 
+// music player 
+let icons = []; 
+let mP; 
+let w, h, xVal, yVal;
+let tBtns = [];
+let count; 
 
 function preload(){
   // Preload Images
@@ -49,11 +54,18 @@ function preload(){
   dreamtimeAudio1 = loadSound('audio/dreamtime_1.mp3');
   dreamtimeAudio2 = loadSound('audio/dreamtime_2.mp3');
 
+  // Preload Music Player Icons 
+  for (let i=0; i<4; i++){
+  icons[i] = createImg("art_img/player/icon_"+i+".png", 'icons');
+  }
+
 }
 
 function setup() {
   createCanvas(4000, 2000); 
   backgroundImg[0] = new StaticImg();
+
+
   for (let i=0; i<19; i++){
     layerOneImg[i] = new MovingImg();
     
@@ -74,6 +86,7 @@ function setup() {
   
   }
 }
+
 
 function draw() {
 
@@ -187,7 +200,13 @@ audioBtn2.draw();
         audio2Count = 1;
         dreamtimeAudio2.play();
       }
-}
+  }
+
+  let mP = new musicPlayer();
+    for (let i=0; i<4; i++){
+      mP.display(i, 100, 100, (i*100)+500, 650);
+      mP.buttons(i, 100, 100, (i*100)+500, 650); 
+    } 
 
   //acknowledgement pop up 
   fill(0,outBoxOpacity);
@@ -213,6 +232,7 @@ audioBtn2.draw();
     xBtn.text = "   ";
     xBtn.resize(0,0);
   }
+
 }
 
 class StaticImg{
@@ -244,6 +264,55 @@ class MovingImg{
 
 
 
+class musicPlayer{
+  constructor(){
+
+  }
+
+  display(i, w, h, xVal, yVal){
+    image(icons[i], w, h);
+    icons[i].position(xVal, yVal, 'fixed');
+    icons[i].size(w, h);
+  }
+
+  buttons(i, w, h, xVal, yVal){
+    tBtns[i] = createButton(" "); 
+    tBtns[i].position(xVal,yVal,'fixed');
+    tBtns[i].size(w, h);
+    tBtns[i].style('backgroundColor', color(0,0));
+    tBtns[i].style('border-style', 'none');
+    tBtns[i].mousePressed(playerBtns);
+  }
+}
+
+function playerBtns(i){
+  count = 0;
+    if (i == 0){
+      count -= 1; 
+    }
+    if (i == 1){
+      count = 0;
+    }
+
+  if (count == 0){
+    dreamtimeAudio.play();
+  }
+  if (count == -1){
+    count = 3; 
+  }
+  if (count == 1){
+    dreamtimeAudio1.play();
+  }
+  if (count == 2){
+    dreamtimeAudio2.play();
+  }
+  if (count == 3){
+    dreamtimeAudio2.play();
+  }
+
+  console.log(count);
+  console.log(i);
+}
 
 
 
