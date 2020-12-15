@@ -1,6 +1,5 @@
 //Acknowledgement
 let a = 'I would like to begin by acknowledging the American Indigenous population, Traditional Custodians of the land on which we learn today, and pay my respects to their Elders past and present. I extend this respect to the Australian Aboriginal and Torres Strait Islander peoples that created these works of art using pieces of their culture and experiences. I would also like to pay my respects to their Elders past and present and to thank them for sharing their work.'
-
 let instruction = 'Instructions: Use your trackpad or mouse to navigate around the Canvas. Interact with shapes to hear Dreamtime Stories.'
 //img set up
 
@@ -18,14 +17,9 @@ let x1, x2, y1, y2; //Variables for Parallax Locations
 // declaring audio
 let dreamtimeAudio;
 let dreamtimeAudio1;
+let dreamtimeAudio2;
 
 // declaring buttons
-let audioBtn;
-let audioBtn1;
-let audioBtn2;
-let audioCount = 0;
-let audio1Count = 0;
-let audio2Count = 0;
 let xBtn; 
 let xBtnCount = 0; 
 
@@ -36,9 +30,15 @@ let boxOpacity = 255;
 // music player 
 let icons = []; 
 let mP; 
-let w, h, xVal, yVal;
-let tBtns = [];
-let count; 
+let w;
+let h;
+let xVal;
+let yVal;
+let tBtn1;
+let tBtn2; 
+let tBtn3; 
+let tBtn4;
+let count = 0;
 
 function preload(){
   // Preload Images
@@ -57,6 +57,7 @@ function preload(){
   // Preload Music Player Icons 
   for (let i=0; i<4; i++){
   icons[i] = createImg("art_img/player/icon_"+i+".png", 'icons');
+  icons[i].style("opacity", "0");
   }
 
 }
@@ -68,23 +69,27 @@ function setup() {
 
   for (let i=0; i<19; i++){
     layerOneImg[i] = new MovingImg();
-    
-    // Popup Button Set Up 
-    xBtn = new Clickable();
-    xBtn.resize(10, 10);
-    xBtn.locate(960,270);
-    xBtn.textColor = 255;
-    xBtn.text = "X";  
-    xBtn.color = 0;
-    xBtn.textSize = 20;
-
-
-    // Audio Button Set Up 
-    audioBtn = new Clickable();
-    audioBtn1 = new Clickable();
-    audioBtn2 = new Clickable();
   
   }
+
+  // Popup Button Set Up 
+  xBtn = new Clickable();
+  xBtn.resize(10, 10);
+  xBtn.locate(960,270);
+  xBtn.textColor = 255;
+  xBtn.text = "X";  
+  xBtn.color = 0;
+  xBtn.textSize = 20;
+
+  // Display for Buttons and Images for the Music Player
+  let mP = new musicPlayer();
+    for (i=0; i<4; i++){
+      mP.display(i, 100, 100, (i*100)+500, 650);
+      mP.back(100, 100, 500, 650); 
+      mP.play(100, 100, 600, 650); 
+      mP.stop(100,100, 700, 650);
+      mP.next(100,100,800,650);
+    } 
 }
 
 
@@ -123,90 +128,12 @@ function draw() {
   layerOneImg[16].parallax([16],0, 300, 50, 500, 0, 50, 300, 600);
   layerOneImg[17].parallax([17],1900, 2600, 2300, 2900, 600, 700, 650, 800);
   layerOneImg[18].parallax([18],300, 600, 400, 700, 0, 100, 0, 100);
-
-  for (let i=0; i<19; i++) { // Display Images 
+  
+  // Display Body Images 
+  for (let i=0; i<19; i++) { 
     layerOneImg[i].display([i],xScroll[i], yScroll[i] );
   }
 
-  // Display Buttons 
-  audioBtn.draw();
-  audioBtn.textFont = "Antic Slab";
-  audioBtn.color = '#702c28';
-  audioBtn.strokeWeight = 0;
-  audioBtn.locate(1080,580);
-  audioBtn.resize(300,50);
-  audioBtn.text = "Mirram The Kangaroo and Warreen The Wombat";
-  audioBtn.onPress = function(){
-    audioCount += 1; 
-    console.log(audioCount);
-
-    if(audioCount == 1){
-      dreamtimeAudio.play();
-    }
-
-    if(audioCount == 2){
-      dreamtimeAudio.stop();
-    }
-
-    if(audioCount == 3){
-      audioCount = 1;
-      dreamtimeAudio.play();
-    }
-  }
-
-  audioBtn1.draw();
-    audioBtn1.textFont = "Antic Slab";
-    audioBtn1.color = '#702c28';
-    audioBtn1.strokeWeight = 0;
-    audioBtn1.locate(2500,800);
-    audioBtn1.resize(300,50);
-    audioBtn1.text = "How The Kangaroo Got It's Pouch";
-    audioBtn1.onPress = function(){
-      audio1Count += 1; 
-  
-      if(audio1Count == 1){
-        dreamtimeAudio1.play();
-      }
-  
-      if(audio1Count == 2){
-        dreamtimeAudio1.stop();
-      }
-  
-      if(audio1Count == 3){
-        audio1Count = 1;
-        dreamtimeAudio1.play();
-      }
-}
-
-audioBtn2.draw();
-    audioBtn2.textFont = "Antic Slab";
-    audioBtn2.color = '#702c28';
-    audioBtn2.strokeWeight = 0;
-    audioBtn2.locate(3200,1800);
-    audioBtn2.resize(300,50);
-    audioBtn2.text = "Wayambeh The Turtle";
-    audioBtn2.onPress = function(){
-      audio2Count += 1; 
-  
-      if(audio2Count == 1){
-        dreamtimeAudio2.play();
-      }
-  
-      if(audio2Count == 2){
-        dreamtimeAudio2.stop();
-      }
-  
-      if(audio2Count == 3){
-        audio2Count = 1;
-        dreamtimeAudio2.play();
-      }
-  }
-
-  let mP = new musicPlayer();
-    for (let i=0; i<4; i++){
-      mP.display(i, 100, 100, (i*100)+500, 650);
-      mP.buttons(i, 100, 100, (i*100)+500, 650); 
-    } 
 
   //acknowledgement pop up 
   fill(0,outBoxOpacity);
@@ -215,6 +142,7 @@ audioBtn2.draw();
   rect(width/10, height/8, 600, 300); 
   fill(255, outBoxOpacity);
   textFont("Antic Slab");
+  textSize(12);
   text(a, width/10+50, height/9, 500, 250);
   text(instruction, width/10+50, height/6, 500, 250);
 
@@ -235,11 +163,10 @@ audioBtn2.draw();
 
 }
 
+
+// Background Image Display
 class StaticImg{
-
-  constructor(){
-    }
-
+  
   display(i, x, y){
     image(layer1[i], x, y);
     
@@ -247,15 +174,12 @@ class StaticImg{
 }
 
 class MovingImg{
-
-  constructor(){
-    }
-
+  // Movement for the Images
   parallax(i, xStart1, xStop1, xStart2, xStop2, yStart1, yStop1, yStart2, yStop2){
     xScroll[i] = map(window.scrollX, xStart1, xStop1, xStart2, xStop2, true);
     yScroll[i] = map(window.scrollY, yStart1, yStop1, yStart2, yStop2, true);
   }
-
+  // Displaying the Images 
   display(i, x, y){
     image(layer2[i], x, y);
   }
@@ -263,57 +187,136 @@ class MovingImg{
 }
 
 
-
+// Class for Music Player Variables
 class musicPlayer{
-  constructor(){
 
-  }
-
+  // Displaying Images for the Buttons
   display(i, w, h, xVal, yVal){
     image(icons[i], w, h);
     icons[i].position(xVal, yVal, 'fixed');
     icons[i].size(w, h);
+    icons[i].style("opacity", "1");
+    
   }
 
-  buttons(i, w, h, xVal, yVal){
-    tBtns[i] = createButton(" "); 
-    tBtns[i].position(xVal,yVal,'fixed');
-    tBtns[i].size(w, h);
-    tBtns[i].style('backgroundColor', color(0,0));
-    tBtns[i].style('border-style', 'none');
-    tBtns[i].mousePressed(playerBtns);
-  }
-}
+  // Music Player Back Button
+  back(w, h, xVal, yVal){
+    tBtn1 = createButton("  "); 
+    tBtn1.position(xVal,yVal,'fixed');
+    tBtn1.size(w, h);
+    tBtn1.style('backgroundColor', color(0,0));
+    tBtn1.style('border-style', 'none');
+    tBtn1.mousePressed(playerBtns0);
 
-function playerBtns(i){
-  count = 0;
-    if (i == 0){
+    function playerBtns0(){
       count -= 1; 
-    }
-    if (i == 1){
-      count = 0;
-    }
+       if (count == 1){
+        dreamtimeAudio.play();
+        dreamtimeAudio1.stop();
+        dreamtimeAudio2.stop();
+       }
+       if (count == -1){
+         count = 3;
+       }
+       if (count == 2){
+        dreamtimeAudio1.play();
+        dreamtimeAudio.stop(); 
+        dreamtimeAudio2.stop();
+       }
+       if (count == 3){
+        dreamtimeAudio2.play();
+        dreamtimeAudio1.stop(); 
+        dreamtimeAudio.stop();
+       }
+     }
+  }
+  // Music Player Play Button
+  play(w, h, xVal, yVal){
+    tBtn2 = createButton("  "); 
+    tBtn2.position(xVal,yVal,'fixed');
+    tBtn2.size(w, h);
+    tBtn2.style('backgroundColor', color(0,0));
+    tBtn2.style('border-style', 'none');
+    tBtn2.mousePressed(playerBtns1);
 
-  if (count == 0){
-    dreamtimeAudio.play();
+    function playerBtns1(){
+       count = 1;
+       if (count == 1){
+        dreamtimeAudio.play();
+        dreamtimeAudio1.stop();
+        dreamtimeAudio2.stop();
+       }
+       if (count == 2){
+        dreamtimeAudio1.play();
+        dreamtimeAudio2.stop(); 
+        dreamtimeAudio.stop();
+       }
+       if (count == 3){
+        dreamtimeAudio2.play();
+        dreamtimeAudio1.stop(); 
+        dreamtimeAudio.stop();
+       }
+     }
   }
-  if (count == -1){
-    count = 3; 
-  }
-  if (count == 1){
-    dreamtimeAudio1.play();
-  }
-  if (count == 2){
-    dreamtimeAudio2.play();
-  }
-  if (count == 3){
-    dreamtimeAudio2.play();
-  }
+  // Music Player Stop Button
+  stop(w, h, xVal, yVal){
+    tBtn3 = createButton("  "); 
+    tBtn3.position(xVal,yVal,'fixed');
+    tBtn3.size(w, h);
+    tBtn3.style('backgroundColor', color(0,0));
+    tBtn3.style('border-style', 'none');
+    tBtn3.mousePressed(playerBtns2);
 
-  console.log(count);
-  console.log(i);
+    function playerBtns2(){
+       if (count == 1){
+        dreamtimeAudio.stop();
+        dreamtimeAudio1.stop();
+        dreamtimeAudio2.stop();
+       }
+       if (count == 2){
+        dreamtimeAudio1.stop();
+        dreamtimeAudio2.stop(); 
+        dreamtimeAudio.stop();
+       }
+       if (count == 3){
+        dreamtimeAudio2.stop();
+        dreamtimeAudio1.stop(); 
+        dreamtimeAudio.stop();
+       }
+     }
+  }
+  // Music Player Next Button
+  next(w, h, xVal, yVal){
+    tBtn4 = createButton("  "); 
+    tBtn4.position(xVal,yVal,'fixed');
+    tBtn4.size(w, h);
+    tBtn4.style('backgroundColor', color(0,0));
+    tBtn4.style('border-style', 'none');
+    tBtn4.mousePressed(playerBtns3);
+
+    function playerBtns3(){
+       count+=1;
+       if (count == 1){
+        dreamtimeAudio.play();
+        dreamtimeAudio1.stop();
+        dreamtimeAudio2.stop();
+       }
+       if (count == 2){
+        dreamtimeAudio1.play();
+        dreamtimeAudio.stop(); 
+        dreamtimeAudio2.stop();
+       }
+       if (count == 3){
+        dreamtimeAudio2.play();
+        dreamtimeAudio1.stop(); 
+        dreamtimeAudio.stop();
+       }
+       if (count == 4){
+         count = 1;
+       }
+     }
+  }
 }
-
 
 
 
