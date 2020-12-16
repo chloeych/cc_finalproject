@@ -103,7 +103,7 @@ function setup() {
     image(icon4, 200, 200);
     icon4.position(500, 0,'fixed');
     icon4.size(400, 40);
-    icon4.style("opacity", "1");
+    icon4.style("opacity", "0");
 
     // Song names 
   for (let i=0; i<3; i++){
@@ -118,6 +118,7 @@ function setup() {
   div4.style("font-family","Antic Slab"); 
   div4.style("color", "lightgrey" );
   div4.style("font-size", "12px" );
+  div4.style("opacity", "0");
   }
 
 function draw() {
@@ -189,6 +190,8 @@ function draw() {
     boxOpacity = 0; 
     xBtn.text = "   ";
     xBtn.resize(0,0);
+    icon4.style("opacity", "1");
+    div4.style("opacity", "1");
   }
 
 }
