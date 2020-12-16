@@ -244,7 +244,7 @@ class musicPlayer{
     function playerBtns0(){
       count -= 1; 
        if (count == 1){
-        songOpacity0 = "255";
+        songOpacity0 = "1";
         songOpacity1 = "0";
         songOpacity2 = "0";
         dreamtimeAudio.play();
@@ -256,7 +256,7 @@ class musicPlayer{
        }
        if (count == 2){
         songOpacity0 = "0";
-        songOpacity1 = "255";
+        songOpacity1 = "1";
         songOpacity2 = "0";
         dreamtimeAudio1.play();
         dreamtimeAudio.stop(); 
@@ -265,7 +265,7 @@ class musicPlayer{
        if (count == 3){
         songOpacity0 = "0";
         songOpacity1 = "0";
-        songOpacity2 = "255";
+        songOpacity2 = "1";
         dreamtimeAudio2.play();
         dreamtimeAudio1.stop(); 
         dreamtimeAudio.stop();
